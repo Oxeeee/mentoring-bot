@@ -24,8 +24,10 @@ func main() {
 		log.Panic(err)
 	}
 
-	bot.Debug = true
+	// bot.Debug = true
 	log.Printf("Auth as %s", bot.Self.UserName)
+
+	tgbot.InitScheduler(bot)
 
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
@@ -33,7 +35,7 @@ func main() {
 
 	for update := range updates {
 		if update.Message != nil {
-			tgbot.HandleMessage(bot, update.Message)
+			go tgbot.HandleMessage(bot, update.Message)
 		}
 	}
 }

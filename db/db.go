@@ -35,9 +35,8 @@ func InitDB() {
 
 func CreateDefaultAdmin() {
 	admin := domain.User{
-		Username:      "petrushin_leonid",
-		IsWhitelisted: true,
-		Role:          "admin",
+		Username: "petrushin_leonid",
+		Role:     "admin",
 	}
 
 	var exitingAdmin domain.User
