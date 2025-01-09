@@ -41,11 +41,11 @@ func InitScheduler(bot *tgbotapi.BotAPI) {
 	if err != nil {
 		log.Printf("Error while loading timezone: %v", err)
 	}
-	log.Println(time.Now())
+	// log.Println(time.Now())
 
 	scheduler := gocron.NewScheduler(location)
 
-	scheduler.Every(1).Day().At("13:28").Do(sendDailyNotifications)
+	scheduler.Every(1).Day().At("15:24").Do(sendDailyNotifications)
 
 	scheduler.StartAsync()
 }

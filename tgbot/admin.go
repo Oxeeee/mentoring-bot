@@ -134,3 +134,42 @@ func handleDeleteAdminRightsCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Mess
 	reply := tgbotapi.NewMessage(message.Chat.ID, "Пользователь "+args+" исключен из списка администраторов.")
 	bot.Send(reply)
 }
+
+func handleBroadcastCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
+	if admin := checkAdmin(bot, message); admin == false {
+		return
+	}
+
+	args := message.CommandArguments()
+	if args == "" {
+		log.Printf("Broadcase: args is empty")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Используй команду так: /broadcast message")
+		bot.Send(reply)
+		return
+	}
+
+	log.Println("Отправка рассылки...")
+
+	var users []domain.User
+	if err := db.DB.Model(&domain.User{}).Find(&users).Error; err != nil {
+		log.Printf("Error while finding users: %v", err)
+		return
+	}
+
+	for _, user := range users {
+		sendNotification(user.ChatID, args)
+	}
+
+}
+
+func sendBroadcastMessage(message string) {
+	var users []domain.User
+	if err := db.DB.Model(&domain.User{}).Find(&users).Error; err != nil {
+		log.Printf("Error while finding users: %v", err)
+		return
+	}
+
+	for _, user := range users {
+		sendNotification(user.ChatID, message)
+	}
+}

@@ -24,7 +24,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	bot.Debug = true
+	// bot.Debug = true
 	log.Printf("Auth as %s", bot.Self.UserName)
 
 	tgbot.InitScheduler(bot)
