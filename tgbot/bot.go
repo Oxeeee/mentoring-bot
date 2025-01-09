@@ -22,12 +22,24 @@ func HandleMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 		handleUserListCommand(bot, message)
 	case "addadmin":
 		handleAddAdminRightsCommand(bot, message)
-	case "deleteadmin":
+	case "removeadmin":
 		handleDeleteAdminRightsCommand(bot, message)
 	case "report":
 		handleReportCommand(bot, message)
 	case "broadcast":
 		handleBroadcastCommand(bot, message)
+	case "help":
+		reply := tgbotapi.NewMessage(message.Chat.ID, "/start — Начать работу с ботом.\n/report - Отправить ежедневный отчет (Используйте как report сообщение)")
+		bot.Send(reply)
+	case "support":
+		reply := tgbotapi.NewMessage(message.Chat.ID, "@y0na24 — Матвей Клёнов, твой ментор\n@petrushin_leonid — Леонид Петрушин, разработчик бота")
+		bot.Send(reply)
+	case "ahelp":
+		if admin := checkAdmin(bot, message); admin == false {
+			return
+		}
+		reply := tgbotapi.NewMessage(message.Chat.ID, "/adduser {username} - Добавить нового пользователя.\n/removeuser {username} - Удалить пользователя.\n/userlist - Показать список всех пользователей бота.\n/addadmin {username} - Назначить пользователя администратором.\n/deleteadmin {username} - Удалить права администратора у пользователя.\n/broadcast {message} - Отправить сообщение всем пользователям бота.\n")
+		bot.Send(reply)
 
 	default:
 		return

@@ -142,7 +142,7 @@ func handleBroadcastCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 
 	args := message.CommandArguments()
 	if args == "" {
-		log.Printf("Broadcase: args is empty")
+		log.Printf("Broadcast: args is empty")
 		reply := tgbotapi.NewMessage(message.Chat.ID, "Используй команду так: /broadcast message")
 		bot.Send(reply)
 		return

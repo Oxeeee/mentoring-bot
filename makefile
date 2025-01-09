@@ -18,7 +18,7 @@ run: ## Start application
 	$(GOCMD) run ./cmd
 
 docker-build: ## Build a Docker Image
-	docker build -t oxeee/theca-back .
+	docker build -t oxeee/mentoring-bot .
 	docker compose up -d
 
 help: ## Display this help screen
