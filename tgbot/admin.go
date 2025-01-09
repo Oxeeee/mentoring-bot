@@ -22,15 +22,15 @@ func checkAdmin(bot *tgbotapi.BotAPI, message *tgbotapi.Message) bool {
 }
 
 func handleAddUserCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
+	if admin := checkAdmin(bot, message); admin == false {
+		return
+	}
+	
 	args := message.CommandArguments()
 	if args == "" {
 		log.Printf("Add user: args is empty")
 		reply := tgbotapi.NewMessage(message.Chat.ID, "Используй команду так: /adduser username")
 		bot.Send(reply)
-		return
-	}
-
-	if admin := checkAdmin(bot, message); admin == false {
 		return
 	}
 
