@@ -1,0 +1,11 @@
+services:
+  app:
+    image: oxeee/mentoring-bot:latest
+    container_name: mentoring_bot
+    volumes:
+      - ./data:/app/data # Хранение SQLite-файла на хосте
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    restart: unless-stopped
