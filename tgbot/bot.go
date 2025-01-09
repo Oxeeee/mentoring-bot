@@ -50,7 +50,7 @@ func handleStartCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	var user domain.User
 	if err := db.DB.Where("username = ?", message.From.UserName).First(&user).Error; err != nil {
 		log.Printf("User %v dont registred", message.From.UserName)
-		reply := tgbotapi.NewMessage(message.Chat.ID, "Ты не зарегестрирован в системе. Попроси ментора @y0na24 тебя зарегестрировать")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Ты не зарегистрирован в системе. Попроси ментора @y0na24 тебя зарегистрировать")
 		bot.Send(reply)
 		return
 	}
@@ -67,7 +67,7 @@ func handleReportCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	var user domain.User
 	if err := db.DB.Where("username = ?", message.From.UserName).First(&user).Error; err != nil {
 		log.Printf("User %v dont registred", message.From.UserName)
-		reply := tgbotapi.NewMessage(message.Chat.ID, "Ты не зарегистрирован в системе. Попроси ментора @y0na24 тебя зарегестрировать")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Ты не зарегистрирован в системе. Попроси ментора @y0na24 тебя зарегистрировать")
 		bot.Send(reply)
 		return
 	}

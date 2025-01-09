@@ -45,7 +45,7 @@ func InitScheduler(bot *tgbotapi.BotAPI) {
 
 	scheduler := gocron.NewScheduler(location)
 
-	scheduler.Every(1).Day().At("15:24").Do(sendDailyNotifications)
+	scheduler.Every(1).Day().At("18:00").Do(sendDailyNotifications)
 
 	scheduler.StartAsync()
 }

@@ -159,7 +159,6 @@ func handleBroadcastCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	for _, user := range users {
 		sendNotification(user.ChatID, args)
 	}
-
 }
 
 func sendBroadcastMessage(message string) {
