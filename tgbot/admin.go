@@ -34,7 +34,7 @@ func handleAddUserCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 		return
 	}
 
-	newUser := domain.User{Username: args, IsWhitelisted: true, Role: "user"}
+	newUser := domain.User{Username: args, Role: "user", ChatID: 0}
 	if err := db.DB.Create(&newUser).Error; err != nil {
 		log.Printf("Error while creating new user: %v", err)
 		reply := tgbotapi.NewMessage(message.Chat.ID, "Ошибка при добавлении пользователя.")

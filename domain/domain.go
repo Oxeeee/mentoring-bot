@@ -3,12 +3,12 @@ package domain
 import "time"
 
 type User struct {
-	ID            uint   `gorm:"primaryKey"`
-	Username      string `gorm:"unique"`
-	IsWhitelisted bool   `gorm:"default:false"`
-	Role          string `gorm:"default:'user'"` // Может быть "user" или "admin"
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID        uint `gorm:"primaryKey"`
+	ChatID    int64
+	Username  string `gorm:"unique"`
+	Role      string `gorm:"default:'user'"` // Может быть "user" или "admin"
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type Message struct {
