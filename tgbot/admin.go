@@ -25,7 +25,7 @@ func handleAddUserCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	if admin := checkAdmin(bot, message); admin == false {
 		return
 	}
-	
+
 	args := message.CommandArguments()
 	if args == "" {
 		log.Printf("Add user: args is empty")
@@ -84,5 +84,53 @@ func handleUserListCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	}
 
 	reply := tgbotapi.NewMessage(message.Chat.ID, fmt.Sprintf("Пользователи бота: %v", users))
+	bot.Send(reply)
+}
+
+func handleAddAdminRightsCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
+	if admin := checkAdmin(bot, message); admin == false {
+		return
+	}
+
+	args := message.CommandArguments()
+	if args == "" {
+		log.Printf("Add admin: args is empty")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Используй команду так: /addadmin username")
+		bot.Send(reply)
+		return
+	}
+
+	if err := db.DB.Model(&domain.User{}).Where("username = ?", args).Update("role", "admin").Error; err != nil {
+		log.Printf("Error while adding admin rights: %v", err)
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Ошибка при добавлении администратора.")
+		bot.Send(reply)
+		return
+	}
+
+	reply := tgbotapi.NewMessage(message.Chat.ID, "Пользователю "+args+" выданы права администратора.")
+	bot.Send(reply)
+}
+
+func handleDeleteAdminRightsCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
+	if admin := checkAdmin(bot, message); admin == false {
+		return
+	}
+
+	args := message.CommandArguments()
+	if args == "" {
+		log.Printf("Delete admin: args is empty")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Используй команду так: /deleteadmin username")
+		bot.Send(reply)
+		return
+	}
+
+	if err := db.DB.Model(&domain.User{}).Where("username = ?", args).Update("role", "user").Error; err != nil {
+		log.Printf("Error while adding admin rights: %v", err)
+		reply := tgbotapi.NewMessage(message.Chat.ID, "Ошибка при удалении администратора.")
+		bot.Send(reply)
+		return
+	}
+
+	reply := tgbotapi.NewMessage(message.Chat.ID, "Пользователь "+args+" исключен из списка администраторов.")
 	bot.Send(reply)
 }

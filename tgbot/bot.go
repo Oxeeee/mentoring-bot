@@ -20,6 +20,10 @@ func HandleMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 		handleRemoveUserCommand(bot, message)
 	case "userlist":
 		handleUserListCommand(bot, message)
+	case "addadmin":
+		handleAddAdminRightsCommand(bot, message)
+	case "deleteadmin":
+		handleDeleteAdminRightsCommand(bot, message)
 
 	default:
 		reply := tgbotapi.NewMessage(message.Chat.ID, "Команда не распознана. Попробуй /start")
