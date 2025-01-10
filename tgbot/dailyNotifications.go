@@ -13,7 +13,8 @@ import (
 var tgbot *tgbotapi.BotAPI
 
 func sendNotification(chatID int64, message string) {
-	msg := tgbotapi.NewMessage(chatID, message)
+	msg := tgbotapi.NewPhoto(chatID, tgbotapi.FileURL("https://i.imgur.com/sXDAz1q.pngит"))
+	msg.Caption = message
 	_, err := tgbot.Send(msg)
 	if err != nil {
 		log.Printf("Error while sending daily notifications: %v", err)
@@ -45,7 +46,7 @@ func InitScheduler(bot *tgbotapi.BotAPI) {
 
 	scheduler := gocron.NewScheduler(location)
 
-	scheduler.Every(1).Day().At("18:00").Do(sendDailyNotifications)
+	scheduler.Every(1).Day().At("14:36").Do(sendDailyNotifications)
 
 	scheduler.StartAsync()
 }
