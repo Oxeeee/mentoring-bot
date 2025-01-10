@@ -172,3 +172,14 @@ func sendBroadcastMessage(message string) {
 		sendNotification(user.ChatID, message)
 	}
 }
+
+func handleResendDailyNotificationCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
+	if admin := checkAdmin(bot, message); admin == false {
+		return
+	}
+
+	sendDailyNotifications()
+
+	reply := tgbotapi.NewMessage(message.Chat.ID, "Ежедневные напоминания отправлены снова.")
+	bot.Send(reply)
+}

@@ -34,11 +34,13 @@ func HandleMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 	case "support":
 		reply := tgbotapi.NewMessage(message.Chat.ID, "@y0na24 — Матвей Клёнов, твой ментор\n@petrushin_leonid — Леонид Петрушин, разработчик бота")
 		bot.Send(reply)
+	case "dailyresend":
+		handleResendDailyNotificationCommand(bot, message)
 	case "ahelp":
 		if admin := checkAdmin(bot, message); admin == false {
 			return
 		}
-		reply := tgbotapi.NewMessage(message.Chat.ID, "/adduser {username} - Добавить нового пользователя.\n/removeuser {username} - Удалить пользователя.\n/userlist - Показать список всех пользователей бота.\n/addadmin {username} - Назначить пользователя администратором.\n/deleteadmin {username} - Удалить права администратора у пользователя.\n/broadcast {message} - Отправить сообщение всем пользователям бота.\n")
+		reply := tgbotapi.NewMessage(message.Chat.ID, "/adduser {username} - Добавить нового пользователя.\n/removeuser {username} - Удалить пользователя.\n/userlist - Показать список всех пользователей бота.\n/addadmin {username} - Назначить пользователя администратором.\n/deleteadmin {username} - Удалить права администратора у пользователя.\n/broadcast {message} - Отправить сообщение всем пользователям бота.\n/dailyresend — Отправить ежедневные напоминания заново.")
 		bot.Send(reply)
 
 	default:
@@ -74,8 +76,9 @@ func handleReportCommand(bot *tgbotapi.BotAPI, message *tgbotapi.Message) {
 
 	location, _ := time.LoadLocation("Europe/Moscow")
 	now := time.Now().In(location)
-	target := time.Date(now.Year(), now.Month(), now.Day(), 18, 0, 0, 0, location)
-	if now.Before(target) {
+	morning := time.Date(now.Year(), now.Month(), now.Day(), 07, 0, 0, 0, location)
+	evening := time.Date(now.Year(), now.Month(), now.Day(), 18, 0, 0, 0, location)
+	if now.Before(evening) && now.After(morning) {
 		reply := tgbotapi.NewMessage(message.Chat.ID, "Пока рановато для отчета, поработай еще")
 		bot.Send(reply)
 	}
